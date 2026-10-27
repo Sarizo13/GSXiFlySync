@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+*.user
+TestResults/
+logs/
+config.json
+lib/SimConnect.dll
+graphify-out/

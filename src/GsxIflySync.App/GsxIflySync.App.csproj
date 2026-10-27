@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
+    <RootNamespace>GsxIflySync.App</RootNamespace>
+    <AssemblyName>GsxIflySync</AssemblyName>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+  </PropertyGroup>
+
+  <!--
+    SimConnect.dll native (x64) : prise dans lib\ du dépôt si on l'y a copiée,
+    sinon dans le SDK MSFS 2024 (variable d'environnement MSFS2024_SDK, défaut C:\MSFS 2024 SDK).
+    Absente : le projet compile quand même, l'outil affiche « SimConnect.dll introuvable ».
+  -->
+  <PropertyGroup>
+    <Msfs2024Sdk Condition="'$(MSFS2024_SDK)' != ''">$(MSFS2024_SDK)</Msfs2024Sdk>
+    <Msfs2024Sdk Condition="'$(Msfs2024Sdk)' == ''">C:\MSFS 2024 SDK</Msfs2024Sdk>
+    <SimConnectDll Condition="Exists('$(MSBuildThisFileDirectory)..\..\lib\SimConnect.dll')">$(MSBuildThisFileDirectory)..\..\lib\SimConnect.dll</SimConnectDll>
+    <SimConnectDll Condition="'$(SimConnectDll)' == '' And Exists('$(Msfs2024Sdk)\SimConnect SDK\lib\SimConnect.dll')">$(Msfs2024Sdk)\SimConnect SDK\lib\SimConnect.dll</SimConnectDll>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(SimConnectDll)' != ''">
+    <None Include="$(SimConnectDll)" Link="SimConnect.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="WarnMissingSimConnect" BeforeTargets="Build" Condition="'$(SimConnectDll)' == ''">
+    <Message Importance="high" Text="ATTENTION : SimConnect.dll introuvable (lib\ ou $(Msfs2024Sdk)\SimConnect SDK\lib). L'outil compilera mais ne pourra pas se connecter." />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GsxIflySync.Core\GsxIflySync.Core.csproj" />
+    <ProjectReference Include="..\GsxIflySync.SimConnect\GsxIflySync.SimConnect.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\config.example.json" Link="config.example.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

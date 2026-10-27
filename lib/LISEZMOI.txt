@@ -1,0 +1,1 @@
+Copier ici SimConnect.dll (SDK MSFS 2024, SimConnect SDK\lib). Non versionnée.

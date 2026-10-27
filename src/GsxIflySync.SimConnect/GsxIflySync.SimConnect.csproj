@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- SimConnect.dll (SDK MSFS 2024) est une DLL native 64 bits uniquement. -->
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
+    <RootNamespace>GsxIflySync.SimConnect</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GsxIflySync.Core\GsxIflySync.Core.csproj" />
+    <InternalsVisibleTo Include="GsxIflySync.Tests" />
+  </ItemGroup>
+
+</Project>

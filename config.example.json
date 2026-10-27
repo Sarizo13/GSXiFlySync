@@ -1,0 +1,43 @@
+{
+  // Copié en config.json au premier lancement si config.json n'existe pas
+  // (l'outil crée sinon un config.json avec ces mêmes valeurs sûres).
+  // Tant que confirmedWritableVariables est vide, AUCUNE écriture n'est possible.
+
+  "readOnly": true,
+  "syncEnabled": false,
+
+  "dispatchIntervalMs": 100,
+  "reconnectIntervalSeconds": 5,
+  "stabilitySeconds": 10,
+  "massToleranceKg": 5,
+  "readbackDelayMs": 2500,
+
+  "ifly": {
+    "aircraftTitleFilter": "iFly",
+
+    // INCONNU à ce jour : nom de la variable « nombre de passagers » de l'iFly.
+    // À renseigner seulement après confirmation en vol avec le champ « Variable libre ».
+    "passengerCountVariable": null,
+
+    // INCONNU à ce jour : stations de charge des zones passagers (index SimConnect, à partir de 1).
+    // Exemple de forme, à NE PAS activer sans diagnostic : [ { "index": 3, "share": 0.5 }, { "index": 4, "share": 0.5 } ]
+    "passengerStations": [],
+
+    // Hypothèse : masse par passager. À aligner sur la valeur affichée par l'EFB iFly.
+    "kgPerPassenger": 84,
+
+    "payloadStationScanCount": 12
+  },
+
+  // Liste fermée des variables où l'outil a le droit d'écrire.
+  // Carburant, centrage, masses à vide et variables GSX (FSDT_) restent refusés même s'ils sont listés.
+  "confirmedWritableVariables": [],
+
+  // Variables affichées en plus par le diagnostic (même syntaxe que le champ libre).
+  "watchVariables": [
+    "L:FSDT_GSX_COCKPIT_DOOR_OPEN",
+    "L:FSDT_GSX_BOARDING_CARGO",
+    "L:FSDT_GSX_PILOTS_ON_BOARD",
+    "L:FSDT_GSX_CREW_ON_BOARD"
+  ]
+}
